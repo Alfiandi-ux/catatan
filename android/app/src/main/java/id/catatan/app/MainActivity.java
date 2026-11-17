@@ -18,7 +18,7 @@ import android.webkit.JavascriptInterface;
 import android.webkit.ValueCallback;
 import android.webkit.WebChromeClient;
 import android.webkit.WebResourceRequest;
-import android.webkit.WebResourceResponse;
+import android.webkit.WebResourceError;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -70,7 +70,7 @@ public class MainActivity extends Activity {
         s.setDomStorageEnabled(true);
         s.setDatabaseEnabled(true);
         s.setAllowFileAccess(true);
-        s.setAllowContentAccess(false);
+        s.setAllowContentAccess(true);
         s.setSupportZoom(false);
         s.setBuiltInZoomControls(false);
         s.setDisplayZoomControls(false);
@@ -279,6 +279,19 @@ public class MainActivity extends Activity {
                 return true;
             }
             return true;
+        }
+
+        @Override
+        public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error) {
+            super.onReceivedError(view, request, error);
+            if (request.isForMainFrame()) {
+                view.loadDataWithBaseURL(null,
+                        "<html><body style=\"font-family:sans-serif;padding:32px;background:#f7f4ec;color:#1b1b1b\">"
+                                + "<h2>Aset aplikasi tidak terbaca</h2>"
+                                + "<p>Pasang ulang APK Catatan, lalu buka kembali.</p>"
+                                + "</body></html>",
+                        "text/html", "utf-8", null);
+            }
         }
     }
 

@@ -12,7 +12,7 @@ Ambil versi terbaru dari halaman rilis:
 
 **<https://github.com/Alfiandi-ux/catatan/releases/latest>**
 
-Tautan langsung ke berkas: [`Catatan-1.0.0.apk`](https://github.com/Alfiandi-ux/catatan/releases/latest/download/Catatan-1.0.0.apk)
+Tautan langsung ke berkas terbaru: [`Catatan.apk`](https://github.com/Alfiandi-ux/catatan/releases/latest/download/Catatan.apk)
 
 ### Cara memasang di HP Android
 
@@ -83,7 +83,7 @@ git tag v1.0.0 && git push origin v1.0.0
 pkg install openjdk-17 aapt2 apksigner dx
 cd ~/catatan
 ./android/build-termux.sh
-# hasil: android/build/Catatan-1.0.0.apk
+# hasil: android/build/Catatan-1.0.1.apk
 ```
 
 Skrip mengunduh `android.jar` (platform 34) sekali ke `~/build/sdk`, lalu memanggil
