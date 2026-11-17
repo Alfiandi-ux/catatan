@@ -1,0 +1,10 @@
+# build
+android/build/
+android/.gradle/
+android/local.properties
+android/app/build/
+.gradle/
+*.iml
+.idea/
+.DS_Store
+node_modules/

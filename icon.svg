@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Catatan">
+  <rect x="8" y="8" width="496" height="496" rx="82" fill="#FFD93D" stroke="#111111" stroke-width="16"/>
+  <rect x="156" y="106" width="252" height="300" rx="18" fill="#111111"/>
+  <rect x="146" y="96" width="252" height="300" rx="18" fill="#FFFDF7"/>
+  <clipPath id="page">
+    <rect x="146" y="96" width="252" height="300" rx="18"/>
+  </clipPath>
+  <g clip-path="url(#page)">
+    <rect x="146" y="96" width="252" height="86" fill="#4D96FF"/>
+    <rect x="146" y="176" width="252" height="13" fill="#111111"/>
+  </g>
+  <rect x="146" y="96" width="252" height="300" rx="18" fill="none" stroke="#111111" stroke-width="14"/>
+  <rect x="178" y="212" width="156" height="16" rx="8" fill="#111111"/>
+  <rect x="178" y="256" width="156" height="16" rx="8" fill="#111111"/>
+  <rect x="178" y="300" width="96" height="16" rx="8" fill="#111111"/>
+  <circle cx="360" cy="368" r="62" fill="#111111"/>
+  <circle cx="360" cy="368" r="50" fill="#6BCB77"/>
+  <path d="m334 370 18 18 36-42" fill="none" stroke="#111111" stroke-width="14" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

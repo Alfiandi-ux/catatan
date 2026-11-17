@@ -1,0 +1,233 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Catatan kerja offline: markdown, tugas, tag, dan pencarian.">
+<meta name="theme-color" content="#f7f4ec">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>Catatan — ruang kerja</title>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="icon-192.png">
+<link rel="stylesheet" href="assets/styles.css">
+</head>
+<body>
+
+<svg class="sprite" aria-hidden="true" focusable="false">
+  <symbol id="i-note" viewBox="0 0 24 24"><path d="M6 3h9l4 4v14H6z"/><path d="M14 3v5h5"/><path d="M9 12h7M9 16h5"/></symbol>
+  <symbol id="i-star" viewBox="0 0 24 24"><path d="m12 3 2.7 5.6 6.1.9-4.4 4.3 1 6.1-5.4-2.9-5.4 2.9 1-6.1L3.2 9.5l6.1-.9z"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="M9 11h6M9 15h4"/><path d="M5 3h14v18H5z"/><path d="m8 7 1.5 1.5L12 6"/></symbol>
+  <symbol id="i-archive" viewBox="0 0 24 24"><path d="M3 4h18v4H3z"/><path d="M5 8v12h14V8"/><path d="M10 12h4"/></symbol>
+  <symbol id="i-trash" viewBox="0 0 24 24"><path d="M4 7h16M9 7V4h6v3M6 7l1 14h10l1-14"/><path d="M10 11v6M14 11v6"/></symbol>
+  <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></symbol>
+  <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+  <symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></symbol>
+  <symbol id="i-back" viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></symbol>
+  <symbol id="i-pin" viewBox="0 0 24 24"><path d="M9 4h6l-1 6 4 4H6l4-4z"/><path d="M12 14v7"/></symbol>
+  <symbol id="i-eye" viewBox="0 0 24 24"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></symbol>
+  <symbol id="i-more" viewBox="0 0 24 24"><circle cx="5" cy="12" r="1.4"/><circle cx="12" cy="12" r="1.4"/><circle cx="19" cy="12" r="1.4"/></symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M5 5l1.5 1.5M17.5 17.5 19 19M19 5l-1.5 1.5M6.5 17.5 5 19"/></symbol>
+  <symbol id="i-moon" viewBox="0 0 24 24"><path d="M20 14.5A8 8 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5z"/></symbol>
+  <symbol id="i-tag" viewBox="0 0 24 24"><path d="M3 12V4h8l9 9-8 8z"/><circle cx="7.5" cy="7.5" r="1.2"/></symbol>
+  <symbol id="i-book" viewBox="0 0 24 24"><path d="M4 5a2 2 0 0 1 2-2h13v18H6a2 2 0 0 1-2-2z"/><path d="M8 3v18"/></symbol>
+  <symbol id="i-download" viewBox="0 0 24 24"><path d="M12 3v12M7 11l5 5 5-5"/><path d="M4 20h16"/></symbol>
+  <symbol id="i-upload" viewBox="0 0 24 24"><path d="M12 16V4M7 8l5-5 5 5"/><path d="M4 20h16"/></symbol>
+  <symbol id="i-x" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></symbol>
+  <symbol id="i-install" viewBox="0 0 24 24"><rect x="7" y="2" width="10" height="20" rx="2"/><path d="M11 18h2"/></symbol>
+  <symbol id="i-copy" viewBox="0 0 24 24"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15H4V4h11v1"/></symbol>
+</svg>
+
+<div class="app">
+  <aside class="sidebar" id="sidebar" aria-label="Navigasi">
+    <div class="brand">
+      <div class="logo"><svg class="icon"><use href="#i-note"/></svg></div>
+      <div class="brand-text">
+        <strong>Catatan</strong>
+        <span>ruang kerja pribadi</span>
+      </div>
+      <button class="icon-btn" id="themeBtn" title="Ganti tema" aria-label="Ganti tema">
+        <svg class="icon" id="themeIcon"><use href="#i-moon"/></svg>
+      </button>
+    </div>
+
+    <div class="ticker" aria-hidden="true">
+      <div class="ticker-track">
+        <span>KERJA • FOKUS • CATAT • SELESAI •</span>
+        <span>KERJA • FOKUS • CATAT • SELESAI •</span>
+      </div>
+    </div>
+
+    <button class="primary-btn" id="newNoteBtn">
+      <svg class="icon"><use href="#i-plus"/></svg> Catatan baru
+      <kbd>Ctrl N</kbd>
+    </button>
+
+    <div class="sticker-row" aria-hidden="true">
+      <span class="sticker sticker-yellow">100% offline</span>
+      <span class="sticker sticker-blue">no cloud</span>
+      <span class="sticker sticker-green">extreme!</span>
+    </div>
+
+    <nav class="side-nav" id="sideNav">
+      <button data-view="all" class="side-item">
+        <svg class="icon"><use href="#i-note"/></svg><span>Semua catatan</span><span class="count" id="countAll">0</span>
+      </button>
+      <button data-view="fav" class="side-item">
+        <svg class="icon"><use href="#i-star"/></svg><span>Disematkan</span><span class="count" id="countFav">0</span>
+      </button>
+      <button data-view="tasks" class="side-item">
+        <svg class="icon"><use href="#i-check"/></svg><span>Tugas</span><span class="count" id="countTasks">0</span>
+      </button>
+      <button data-view="archive" class="side-item">
+        <svg class="icon"><use href="#i-archive"/></svg><span>Arsip</span><span class="count" id="countArchive">0</span>
+      </button>
+      <button data-view="trash" class="side-item">
+        <svg class="icon"><use href="#i-trash"/></svg><span>Sampah</span><span class="count" id="countTrash">0</span>
+      </button>
+    </nav>
+
+    <div class="side-section" id="notebookSection">
+      <div class="side-head">
+        <span><svg class="icon"><use href="#i-book"/></svg> Buku catatan</span>
+        <button class="mini-btn" id="newNotebookBtn" title="Buku catatan baru" aria-label="Buku catatan baru">+</button>
+      </div>
+      <div id="notebookList" class="side-list"></div>
+    </div>
+
+    <div class="side-section" id="tagSection">
+      <div class="side-head">
+        <span><svg class="icon"><use href="#i-tag"/></svg> Tag</span>
+      </div>
+      <div id="tagList" class="tag-cloud"></div>
+    </div>
+
+    <div class="side-foot">
+      <div class="foot-actions">
+        <button id="exportBtn" class="ghost-btn"><svg class="icon"><use href="#i-download"/></svg> Ekspor</button>
+        <button id="importBtn" class="ghost-btn"><svg class="icon"><use href="#i-upload"/></svg> Impor</button>
+        <button id="installBtn" class="ghost-btn" hidden><svg class="icon"><use href="#i-install"/></svg> Pasang</button>
+      </div>
+      <p class="storage-note" id="storageNote">Tersimpan di perangkat ini.</p>
+    </div>
+  </aside>
+
+  <div class="scrim" id="scrim" aria-hidden="true"></div>
+
+  <section class="list-pane" aria-label="Daftar catatan">
+    <header class="list-head">
+      <div class="list-head-row">
+        <button class="icon-btn mobile-only" id="openNavBtn" aria-label="Buka menu">
+          <svg class="icon"><use href="#i-menu"/></svg>
+        </button>
+        <h1 id="listTitle">Semua catatan</h1>
+        <span class="badge" id="listCount">0</span>
+        <span class="spacer"></span>
+        <select id="sortSelect" class="sort-select" aria-label="Urutkan">
+          <option value="updated">Diubah</option>
+          <option value="created">Dibuat</option>
+          <option value="title">Judul</option>
+        </select>
+        <button class="icon-btn" id="newBtn" aria-label="Catatan baru" title="Catatan baru (Ctrl+N)">
+          <svg class="icon"><use href="#i-plus"/></svg>
+        </button>
+      </div>
+
+      <div class="search-wrap">
+        <svg class="icon"><use href="#i-search"/></svg>
+        <input id="searchInput" type="search" placeholder="Cari catatan, tag, isi…" autocomplete="off" aria-label="Cari catatan">
+        <button class="icon-btn small" id="clearSearch" aria-label="Hapus pencarian" hidden>
+          <svg class="icon"><use href="#i-x"/></svg>
+        </button>
+      </div>
+
+      <div class="list-tools">
+        <span class="filter-chip" id="filterChip" hidden></span>
+        <span class="spacer"></span>
+        <button id="emptyTrashBtn" class="danger-link" hidden>Kosongkan sampah</button>
+      </div>
+    </header>
+
+    <div class="hazard" aria-hidden="true"></div>
+
+    <div id="noteList" class="note-list" role="list"></div>
+  </section>
+
+  <section class="editor-pane" id="editorPane" aria-label="Editor catatan">
+    <div class="editor-empty" id="editorEmpty">
+      <span class="sticker sticker-pink floating" aria-hidden="true">mulai!</span>
+      <div class="empty-art"><svg class="icon"><use href="#i-note"/></svg></div>
+      <h2>Pilih catatan</h2>
+      <p>Atau buat catatan baru untuk mulai bekerja.<br>Semua data tersimpan otomatis di perangkat ini.</p>
+      <button class="primary-btn" id="emptyNewBtn"><svg class="icon"><use href="#i-plus"/></svg> Catatan baru</button>
+      <p class="shortcuts">
+        <kbd>Ctrl N</kbd> baru · <kbd>Ctrl K</kbd> cari · <kbd>Ctrl S</kbd> simpan
+      </p>
+    </div>
+
+    <div class="editor" id="editor" hidden>
+      <header class="editor-head">
+        <button class="icon-btn mobile-only" id="backBtn" aria-label="Kembali ke daftar">
+          <svg class="icon"><use href="#i-back"/></svg>
+        </button>
+        <input id="titleInput" class="title-input" placeholder="Judul catatan" autocomplete="off" aria-label="Judul catatan">
+        <div class="editor-actions">
+          <button class="icon-btn" id="pinBtn" aria-label="Sematkan" title="Sematkan">
+            <svg class="icon"><use href="#i-pin"/></svg>
+          </button>
+          <button class="icon-btn" id="previewBtn" aria-label="Pratinjau" title="Pratinjau markdown">
+            <svg class="icon"><use href="#i-eye"/></svg>
+          </button>
+          <button class="icon-btn" id="menuBtn" aria-label="Aksi lain" title="Aksi lain">
+            <svg class="icon"><use href="#i-more"/></svg>
+          </button>
+        </div>
+        <div class="menu" id="noteMenu" hidden></div>
+      </header>
+
+      <div class="banner" id="noteBanner" hidden></div>
+
+      <div class="meta-row">
+        <label class="meta-field">
+          <svg class="icon"><use href="#i-book"/></svg>
+          <input id="notebookInput" list="notebookOptions" placeholder="Buku catatan" aria-label="Buku catatan">
+          <datalist id="notebookOptions"></datalist>
+        </label>
+        <label class="meta-field wide">
+          <svg class="icon"><use href="#i-tag"/></svg>
+          <input id="tagsInput" placeholder="tag, tag" aria-label="Tag" autocomplete="off">
+        </label>
+      </div>
+
+      <div class="fmt-bar" id="fmtBar">
+        <button data-fmt="h" title="Judul bagian">H</button>
+        <button data-fmt="b" title="Tebal"><b>B</b></button>
+        <button data-fmt="i" title="Miring"><i>I</i></button>
+        <button data-fmt="task" title="Tugas">☑</button>
+        <button data-fmt="list" title="Daftar">•</button>
+        <button data-fmt="code" title="Kode">&lt;/&gt;</button>
+      </div>
+
+      <div class="body-wrap">
+        <textarea id="bodyInput" class="body-input" spellcheck="true"
+          placeholder="Mulai menulis…&#10;&#10;Dukungan Markdown:&#10;# Judul   **tebal**   *miring*   `kode`&#10;- [ ] tugas   - poin   > kutipan"></textarea>
+        <div id="preview" class="preview" hidden></div>
+      </div>
+
+      <div class="hazard hazard-thin" aria-hidden="true"></div>
+      <footer class="statusbar">
+        <span id="noteStats"></span>
+        <span class="spacer"></span>
+        <span id="saveState" class="save-state">Tersimpan</span>
+      </footer>
+    </div>
+  </section>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<input type="file" id="importFile" accept=".json,application/json" hidden>
+
+<script src="assets/app.js"></script>
+</body>
+</html>
