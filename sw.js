@@ -1,4 +1,4 @@
-const CACHE = 'catatan-v2';
+const CACHE = 'catatan-v3';
 const ASSETS = [
   './',
   './index.html',

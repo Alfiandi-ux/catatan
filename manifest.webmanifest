@@ -1,7 +1,7 @@
 {
   "name": "Catatan — ruang kerja",
   "short_name": "Catatan",
-  "description": "Catatan kerja offline dengan markdown, tugas, tag, dan pencarian.",
+  "description": "Catatan kerja offline dengan markdown, tugas, tag, pencarian, insight, dan riwayat versi.",
   "lang": "id",
   "dir": "ltr",
   "start_url": "./",
@@ -10,6 +10,22 @@
   "orientation": "any",
   "background_color": "#f7f4ec",
   "theme_color": "#ffd93d",
+  "shortcuts": [
+    {
+      "name": "Catatan baru",
+      "short_name": "Baru",
+      "description": "Buat catatan kosong",
+      "url": "./?new=1",
+      "icons": [{ "src": "icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Catatan harian",
+      "short_name": "Harian",
+      "description": "Buka jurnal hari ini",
+      "url": "./?daily=1",
+      "icons": [{ "src": "icon-192.png", "sizes": "192x192" }]
+    }
+  ],
   "icons": [
     {
       "src": "icon-192.png",

@@ -25,21 +25,30 @@ Tautan langsung ke berkas terbaru: [`Catatan.apk`](https://github.com/Alfiandi-u
 APK ini ditandatangani sendiri (self-signed), jadi Play Protect bisa menampilkan
 "aplikasi tidak dikenal". Itu normal untuk aplikasi di luar Play Store.
 
-**Spesifikasi:** Android 6.0+ (minSdk 23), target Android 14, ukuran ±70 KB,
+**Spesifikasi:** Android 6.0+ (minSdk 23), target Android 14, ukuran ±100 KB,
 tanpa izin internet, tanpa iklan, tanpa pelacakan.
 
 ## Fitur
 
 - **Tulis & simpan otomatis** — tidak ada tombol simpan, semua perubahan tersimpan di perangkat.
-- **Markdown** — judul, tebal/miring, kode, kutipan, tautan, dan daftar. Ada mode pratinjau.
+- **Command palette** (`Ctrl K`) — cari catatan dan jalankan perintah dari satu tempat.
+- **Mode editor 3-in-1** (`Ctrl E`) — tulis, pisah (editor + pratinjau berdampingan), atau pratinjau penuh.
+- **Mode fokus** (`Ctrl Shift F`) — sembunyikan panel samping untuk menulis tanpa gangguan.
+- **Markdown kaya** — judul, tebal/miring, kode, kutipan, tautan, tabel, callout, `==sorot==`, dan checklist.
+- **Wikilink `[[Judul catatan]]`** — hubungkan catatan; klik tautan di pratinjau untuk membuka atau membuat catatan tujuan.
+- **Riwayat versi** — snapshot otomatis saat menulis (maksimal 20 versi), bisa dipulihkan kapan saja.
+- **Insight** — streak menulis, peta aktivitas 6 minggu, progres tugas, buku catatan dan tag teratas.
+- **Templat** — rapat, jurnal harian, rencana proyek, checklist, riset, dan review mingguan.
+- **Catatan harian** (`Ctrl Shift D`) — buka atau buat jurnal hari ini secara otomatis.
 - **Checklist tugas** — tulis `- [ ] ...`, lalu selesaikan dari menu **Tugas** yang menggabungkan tugas dari semua catatan.
 - **Buku catatan & tag** — kelompokkan pekerjaan, lalu filter dengan satu klik.
-- **Cari cepat** — mencari di judul, isi, tag, dan nama buku catatan (`Ctrl K`).
+- **Cari cepat** — mencari di judul, isi, tag, dan nama buku catatan.
 - **Sematkan** catatan penting agar selalu di atas.
-- **Arsip & Sampah** — catatan lama tidak hilang; sampah bisa dipulihkan atau dikosongkan.
-- **Ekspor/Impor JSON** — cadangan penuh, plus unduh satu catatan sebagai `.md`.
+- **Arsip & Sampah** — sampah menyimpan catatan 30 hari sebelum dibersihkan otomatis.
+- **Cetak / PDF** — cetak catatan atau simpan sebagai PDF dari menu aksi.
+- **Ekspor/Impor JSON** — cadangan penuh (termasuk riwayat versi), plus unduh satu catatan sebagai `.md`.
   Di APK, hasil ekspor tersimpan di `Download/Catatan/`.
-- **PWA** — bisa dipasang ke layar utama dan tetap terbuka saat offline.
+- **PWA** — bisa dipasang ke layar utama, punya pintasan "Catatan baru" dan "Harian", tetap terbuka saat offline.
 - **Tema neo brutalism** terang/gelap, tata letak responsif untuk HP maupun desktop.
 
 ## Menjalankan versi web di Termux
@@ -74,7 +83,7 @@ Setiap push ke `main` dan setiap tag `v*` akan membangun APK lewat
 `catatan-apk`), dan otomatis dilampirkan ke rilis bila kamu push tag:
 
 ```bash
-git tag v1.0.0 && git push origin v1.0.0
+git tag v1.1.0 && git push origin v1.1.0
 ```
 
 ### B. Termux (tanpa Gradle, cara yang dipakai untuk rilis ini)
@@ -83,12 +92,12 @@ git tag v1.0.0 && git push origin v1.0.0
 pkg install openjdk-17 aapt2 apksigner dx
 cd ~/catatan
 ./android/build-termux.sh
-# hasil: android/build/Catatan-1.0.1.apk
+# hasil: android/build/Catatan-1.1.0.apk
 ```
 
 Skrip mengunduh `android.jar` (platform 34) sekali ke `~/build/sdk`, lalu memanggil
 `aapt2`, `javac`, `dx`, `zipalign.py` (pengganti zipalign untuk aarch64), dan
-`apksigner`. Versi bisa diatur lewat `VERSION_NAME=1.0.1 VERSION_CODE=2 ./android/build-termux.sh`.
+`apksigner`. Versi bisa diatur lewat `VERSION_NAME=1.1.0 VERSION_CODE=3 ./android/build-termux.sh`.
 
 ### C. Gradle biasa
 
@@ -109,23 +118,36 @@ Aset web di akar repo disalin otomatis ke `assets/www` saat build.
 
 | Tombol | Fungsi |
 | --- | --- |
+| `Ctrl K` | Command palette: cari catatan / jalankan perintah |
 | `Ctrl N` | Catatan baru |
-| `Ctrl K` | Fokus ke pencarian |
+| `Ctrl Shift D` | Catatan harian hari ini |
+| `Ctrl E` | Ganti mode editor: tulis → pisah → pratinjau |
+| `Ctrl Shift F` | Mode fokus |
 | `Ctrl S` | Paksa simpan sekarang |
-| `Esc` / tombol kembali | Tutup menu / kembali dari editor (HP) |
+| `/` | Fokus ke pencarian |
+| `?` | Daftar pintasan & sintaks |
+| `Esc` / tombol kembali | Tutup dialog / keluar mode fokus / kembali dari editor (HP) |
 
 ## Markdown singkat
 
 ```markdown
 # Judul bagian
-**tebal**  *miring*  `kode`  ~~coret~~
+**tebal**  *miring*  `kode`  ~~coret~~  ==sorot==
 
 - poin daftar
 - [ ] tugas belum selesai
 - [x] tugas selesai
 
-> kutipan
+> kutipan biasa
 
+> [!NOTE] Judul callout
+> Isi catatan penting. Varian: NOTE, TIP, WARN, DANGER.
+
+| Kolom | Nilai |
+| --- | --- |
+| Baris | Isi |
+
+[[Judul catatan lain]]        tautan internal
 [teks tautan](https://contoh.com)
 ```
 
@@ -135,6 +157,8 @@ Aset web di akar repo disalin otomatis ke `assets/www` saat build.
   tidak ada akses internet sama sekali.
 - Di **browser/PWA**, data disimpan di IndexedDB perangkat, dengan cadangan otomatis
   ke `localStorage` bila IndexedDB tidak tersedia.
+- **Riwayat versi** ikut tersimpan di dalam catatan (maksimal 20 versi) dan ikut
+  masuk ke berkas ekspor JSON.
 - **Jangan hapus data aplikasi** di Setelan Android, karena catatan ikut terhapus.
 - Lakukan **Ekspor** berkala (panel kiri bawah) untuk menyimpan cadangan `.json`.
 - Memindahkan data ke perangkat lain: **Ekspor** di perangkat lama → salin berkas →
