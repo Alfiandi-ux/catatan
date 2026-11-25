@@ -83,7 +83,7 @@ Setiap push ke `main` dan setiap tag `v*` akan membangun APK lewat
 `catatan-apk`), dan otomatis dilampirkan ke rilis bila kamu push tag:
 
 ```bash
-git tag v1.1.0 && git push origin v1.1.0
+git tag v1.1.1 && git push origin v1.1.1
 ```
 
 ### B. Termux (tanpa Gradle, cara yang dipakai untuk rilis ini)
@@ -92,12 +92,12 @@ git tag v1.1.0 && git push origin v1.1.0
 pkg install openjdk-17 aapt2 apksigner dx
 cd ~/catatan
 ./android/build-termux.sh
-# hasil: android/build/Catatan-1.1.0.apk
+# hasil: android/build/Catatan-1.1.1.apk
 ```
 
 Skrip mengunduh `android.jar` (platform 34) sekali ke `~/build/sdk`, lalu memanggil
 `aapt2`, `javac`, `dx`, `zipalign.py` (pengganti zipalign untuk aarch64), dan
-`apksigner`. Versi bisa diatur lewat `VERSION_NAME=1.1.0 VERSION_CODE=3 ./android/build-termux.sh`.
+`apksigner`. Versi bisa diatur lewat `VERSION_NAME=1.1.1 VERSION_CODE=4 ./android/build-termux.sh`.
 
 ### C. Gradle biasa
 

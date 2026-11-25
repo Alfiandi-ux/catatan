@@ -3,6 +3,7 @@ package id.catatan.app;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
@@ -10,7 +11,13 @@ import android.media.MediaScannerConnection;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.CancellationSignal;
 import android.os.Environment;
+import android.os.ParcelFileDescriptor;
+import android.print.PageRange;
+import android.print.PrintAttributes;
+import android.print.PrintDocumentAdapter;
+import android.print.PrintManager;
 import android.provider.MediaStore;
 import android.util.Base64;
 import android.view.View;
@@ -125,6 +132,67 @@ public class MainActivity extends Activity {
         @JavascriptInterface
         public void toast(String message) {
             toastOnUi(message);
+        }
+
+        @JavascriptInterface
+        public void print(final String title) {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    printDocument(title);
+                }
+            });
+        }
+    }
+
+    /* ---------------- pencetakan / ekspor PDF ---------------- */
+
+    private void printDocument(String title) {
+        if (web == null) return;
+        try {
+            PrintManager printManager = (PrintManager) getSystemService(Context.PRINT_SERVICE);
+            if (printManager == null) {
+                toastOnUi("Layanan cetak tidak tersedia di perangkat ini");
+                return;
+            }
+            String safeTitle = (title == null || title.trim().isEmpty()) ? "Catatan" : title.trim();
+            final String jobName = "Catatan - " + safeTitle;
+            final PrintDocumentAdapter delegate = web.createPrintDocumentAdapter(jobName);
+            PrintDocumentAdapter adapter = new PrintDocumentAdapter() {
+                @Override
+                public void onStart() {
+                    delegate.onStart();
+                }
+
+                @Override
+                public void onLayout(PrintAttributes oldAttributes, PrintAttributes newAttributes,
+                                     CancellationSignal cancellationSignal, LayoutResultCallback callback,
+                                     Bundle extras) {
+                    delegate.onLayout(oldAttributes, newAttributes, cancellationSignal, callback, extras);
+                }
+
+                @Override
+                public void onWrite(PageRange[] pages, ParcelFileDescriptor destination,
+                                    CancellationSignal cancellationSignal, WriteResultCallback callback) {
+                    delegate.onWrite(pages, destination, cancellationSignal, callback);
+                }
+
+                @Override
+                public void onFinish() {
+                    delegate.onFinish();
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            if (web != null) {
+                                web.evaluateJavascript("if(typeof window.onPrintDone==='function'){window.onPrintDone();}", null);
+                            }
+                        }
+                    });
+                }
+            };
+            printManager.print(jobName, adapter, new PrintAttributes.Builder().build());
+        } catch (Exception e) {
+            toastOnUi("Gagal membuka dialog cetak: " + e.getMessage());
         }
     }
 

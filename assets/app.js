@@ -1434,11 +1434,21 @@ function printCurrentNote() {
     document.body.classList.remove('printing');
   };
   window.addEventListener('afterprint', cleanup, { once: true });
+  window.onPrintDone = cleanup;
   clearTimeout(printCleanupTimer);
-  printCleanupTimer = setTimeout(cleanup, 15000);
+  printCleanupTimer = setTimeout(cleanup, 30000);
   setTimeout(() => {
+    const bridge = window.CatatanAndroid;
+    if (bridge && typeof bridge.print === 'function') {
+      try {
+        bridge.print(displayTitle(note));
+        return;
+      } catch (err) {
+        console.warn('Cetak Android gagal, mencoba cetak browser.', err);
+      }
+    }
     try { window.print(); } catch (err) { console.warn('Cetak tidak didukung.', err); toast('Cetak tidak didukung di perangkat ini'); cleanup(); }
-  }, 80);
+  }, 100);
 }
 
 async function copyNoteMarkdown() {
@@ -1988,7 +1998,7 @@ function commandList() {
     commands.splice(7, 0,
       { id: 'history', label: 'Riwayat versi', sub: `Lihat ${(note.versions || []).length} versi catatan ini`, icon: 'i-history', run: openHistory },
       { id: 'links', label: 'Tautan catatan', sub: 'Tautan keluar dan balik', icon: 'i-link', run: openLinks },
-      { id: 'print', label: 'Cetak / PDF', sub: 'Cetak catatan ini atau simpan sebagai PDF', icon: 'i-print', run: printCurrentNote },
+      { id: 'print', label: 'Cetak / PDF', sub: 'Cetak catatan ini atau simpan sebagai PDF', icon: 'i-print', key: 'Ctrl P', run: printCurrentNote },
       { id: 'duplicate', label: 'Duplikat catatan', sub: 'Buat salinan catatan ini', icon: 'i-copy', run: duplicateNote },
       { id: 'archive-current', label: note.archived ? 'Keluarkan dari arsip' : 'Arsipkan catatan', sub: 'Pindahkan ke arsip', icon: 'i-archive', run: () => toggleArchive(note.id) },
       { id: 'trash-current', label: 'Pindahkan ke sampah', sub: 'Bisa dipulihkan dalam 30 hari', icon: 'i-trash', run: () => deleteNote(note.id) },
@@ -2600,6 +2610,9 @@ function bindEvents() {
     } else if (mod && key === 'n') {
       event.preventDefault();
       createNote();
+    } else if (mod && key === 'p') {
+      event.preventDefault();
+      printCurrentNote();
     } else if (mod && key === 's') {
       event.preventDefault();
       syncEditor();

@@ -13,8 +13,8 @@ BUILD="$ANDROID_DIR/build"
 APP_SRC="$ANDROID_DIR/app/src/main"
 SDK_DIR="${ANDROID_SDK_DIR:-$HOME/build/sdk}"
 JAR="${ANDROID_JAR:-$SDK_DIR/android-34/android.jar}"
-VERSION_CODE="${VERSION_CODE:-3}"
-VERSION_NAME="${VERSION_NAME:-1.1.0}"
+VERSION_CODE="${VERSION_CODE:-4}"
+VERSION_NAME="${VERSION_NAME:-1.1.1}"
 OUT="${1:-$ANDROID_DIR/build/Catatan-$VERSION_NAME.apk}"
 
 log() { printf '\033[1;33m▸ %s\033[0m\n' "$*"; }
